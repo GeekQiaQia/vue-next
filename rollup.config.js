@@ -80,7 +80,7 @@ function createConfig(format, output, plugins = []) {
     process.exit(1)
   }
 
-  output.sourcemap = !!process.env.SOURCE_MAP
+  output.sourcemap = !!process.env.SOURCE_MAP // 双非运算，取bool值;  通过sourcemap:true配置；让我们看到源码的具体位置；
   output.externalLiveBindings = false
 
   const isProductionBuild =
