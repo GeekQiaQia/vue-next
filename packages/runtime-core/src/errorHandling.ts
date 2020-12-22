@@ -58,8 +58,9 @@ export const ErrorTypeStrings: Record<number | string, string> = {
 
 export type ErrorTypes = LifecycleHooks | ErrorCodes
 
+// 返回setup结果
 export function callWithErrorHandling(
-  fn: Function,
+  fn: Function, // setup();
   instance: ComponentInternalInstance | null,
   type: ErrorTypes,
   args?: unknown[]
@@ -72,7 +73,7 @@ export function callWithErrorHandling(
   }
   return res
 }
-
+// 异步返回setup结果；
 export function callWithAsyncErrorHandling(
   fn: Function | Function[],
   instance: ComponentInternalInstance | null,

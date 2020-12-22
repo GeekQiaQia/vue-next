@@ -129,10 +129,11 @@ export function createAppAPI<HostElement>(
       __DEV__ && warn(`root props passed to app.mount() must be an object.`)
       rootProps = null
     }
-
+    // 1、 创建应用上下文
     const context = createAppContext()
+    // 通过使用set数据结构，存储安装的插件；
     const installedPlugins = new Set()
-
+    // 默认组件未挂载
     let isMounted = false
 
     const app: App = (context.app = {
@@ -155,14 +156,16 @@ export function createAppAPI<HostElement>(
           )
         }
       },
-
+      // 通过app.use使用安装插件； use函数中首先判断set中是否存在当前plugin
       use(plugin: Plugin, ...options: any[]) {
         if (installedPlugins.has(plugin)) {
           __DEV__ && warn(`Plugin has already been applied to target app.`)
         } else if (plugin && isFunction(plugin.install)) {
-          installedPlugins.add(plugin)
-          plugin.install(app, ...options)
+          // 如果插件 plugin.install 是一个函数的情况
+          installedPlugins.add(plugin) //installedPlugins:Set
+          plugin.install(app, ...options) // 在插件install函数中传入app实例以及option
         } else if (isFunction(plugin)) {
+          // plugin本身是个函数
           installedPlugins.add(plugin)
           plugin(app, ...options)
         } else if (__DEV__) {
@@ -173,9 +176,10 @@ export function createAppAPI<HostElement>(
         }
         return app
       },
-
+      // mixin 混入；兼容option api；
       mixin(mixin: ComponentOptions) {
         if (__FEATURE_OPTIONS_API__) {
+          // OPTION_API
           if (!context.mixins.includes(mixin)) {
             context.mixins.push(mixin)
             // global mixin with props/emits de-optimizes props/emits
@@ -194,12 +198,13 @@ export function createAppAPI<HostElement>(
         }
         return app
       },
-
+      // 组件
       component(name: string, component?: Component): any {
         if (__DEV__) {
-          validateComponentName(name, context.config)
+          validateComponentName(name, context.config) // 开发环境校验组件名称是否有效
         }
         if (!component) {
+          // 如果没有传入组件，则判断当前app是否以及有组件名对应的组件
           return context.components[name]
         }
         if (__DEV__ && context.components[name]) {
@@ -208,7 +213,7 @@ export function createAppAPI<HostElement>(
         context.components[name] = component
         return app
       },
-
+      // 指令
       directive(name: string, directive?: Directive) {
         if (__DEV__) {
           validateDirectiveName(name)
@@ -223,8 +228,9 @@ export function createAppAPI<HostElement>(
         context.directives[name] = directive
         return app
       },
-
+      // app 挂载 rootContainer
       mount(rootContainer: HostElement, isHydrate?: boolean): any {
+        // 如果尚未挂载，则创建vdom节点；
         if (!isMounted) {
           const vnode = createVNode(
             rootComponent as ConcreteComponent,
@@ -232,21 +238,26 @@ export function createAppAPI<HostElement>(
           )
           // store app context on the root VNode.
           // this will be set on the root instance on initial mount.
+          // 将 app context 存储在根虚拟dom节点；这将在初始挂载的根实例上设置
           vnode.appContext = context
 
           // HMR root reload
           if (__DEV__) {
+            //如果是开发环境，则app的重新加载函数为render(); cloneVnode  rootContainer;
+
             context.reload = () => {
               render(cloneVNode(vnode), rootContainer)
             }
           }
 
           if (isHydrate && hydrate) {
+            // 是否为混合开发
             hydrate(vnode as VNode<Node, Element>, rootContainer as any)
           } else {
+            // 否则进行render 渲染；
             render(vnode, rootContainer)
           }
-          isMounted = true
+          isMounted = true // 改变挂载标记
           app._container = rootContainer
           // for devtools and telemetry
           ;(rootContainer as any).__vue_app__ = app
@@ -265,7 +276,7 @@ export function createAppAPI<HostElement>(
           )
         }
       },
-
+      // 组件卸载，render() null
       unmount() {
         if (isMounted) {
           render(null, app._container)
@@ -276,7 +287,7 @@ export function createAppAPI<HostElement>(
           warn(`Cannot unmount an app that is not mounted.`)
         }
       },
-
+      // 定义provide
       provide(key, value) {
         if (__DEV__ && (key as string | symbol) in context.provides) {
           warn(

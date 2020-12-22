@@ -10,7 +10,7 @@ import { InternalRenderFunction } from 'packages/runtime-core/src/component'
 __DEV__ && initDev()
 
 const compileCache: Record<string, RenderFunction> = Object.create(null)
-
+// 模板渲染函数
 function compileToFunction(
   template: string | HTMLElement,
   options?: CompilerOptions
@@ -25,12 +25,13 @@ function compileToFunction(
   }
 
   const key = template
-  const cached = compileCache[key]
+  const cached = compileCache[key] // 校验改模板字符串是否已经编译为渲染函数
   if (cached) {
-    return cached
+    return cached // 如果已经有，则直接返回字符串对应的render;
   }
 
   if (template[0] === '#') {
+    // 如果是rootContainer innterHTML;则... 判断模板是否存在；
     const el = document.querySelector(template)
     if (__DEV__ && !el) {
       warn(`Template element not found or is empty: ${template}`)

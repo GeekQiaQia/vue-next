@@ -459,11 +459,12 @@ export function createComponentInstance(
     asyncDep: null,
     asyncResolved: false,
 
-    // lifecycle hooks
-    // not using enums here because it results in computed properties
+    // not using enums here because it results in computed properties 不再使用枚举，将会导致计算属性
+    // 生命周期标志flag
     isMounted: false,
     isUnmounted: false,
     isDeactivated: false,
+    // lifecycle hooks  生命周期钩子函数，；
     bc: null,
     c: null,
     bm: null,
@@ -524,6 +525,7 @@ export function setupComponent(
   isInSSRComponentSetup = isSSR
 
   const { props, children, shapeFlag } = instance.vnode
+  // 判断当前组件实例的虚拟节点是否为stateful组件；
   const isStateful = shapeFlag & ShapeFlags.STATEFUL_COMPONENT
   initProps(instance, props, isStateful, isSSR)
   initSlots(instance, children)
@@ -613,6 +615,7 @@ export function handleSetupResult(
   isSSR: boolean
 ) {
   if (isFunction(setupResult)) {
+    // 判断setup返回是否为渲染函数 render function
     // setup returned an inline render function
     if (__NODE_JS__ && (instance.type as ComponentOptions).__ssrInlineRender) {
       // when the function's name is `ssrRender` (compiled by SFC inline mode),
@@ -622,7 +625,9 @@ export function handleSetupResult(
       instance.render = setupResult as InternalRenderFunction
     }
   } else if (isObject(setupResult)) {
+    // 如果 setup返回结果为对象；
     if (__DEV__ && isVNode(setupResult)) {
+      // 判断setup不可返回一个虚拟dom对象，只可返回render function
       warn(
         `setup() should not return VNodes directly - ` +
           `return a render function instead.`
@@ -670,10 +675,12 @@ function finishComponentSetup(
 
   // template / render function normalization
   if (__NODE_JS__ && isSSR) {
+    // 如果是nodejs环境 且是SSR渲染
     if (Component.render) {
       instance.render = Component.render as InternalRenderFunction
     }
   } else if (!instance.render) {
+    // 如果组件实例render函数不存在时
     // could be set from setup()
     if (compile && Component.template && !Component.render) {
       if (__DEV__) {
@@ -701,11 +708,11 @@ function finishComponentSetup(
     }
   }
 
-  // support for 2.x options
+  // support for 2.x options   // options api
   if (__FEATURE_OPTIONS_API__) {
     currentInstance = instance
     pauseTracking()
-    applyOptions(instance, Component)
+    applyOptions(instance, Component) // options api 处理
     resetTracking()
     currentInstance = null
   }

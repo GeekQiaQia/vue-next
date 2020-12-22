@@ -34,6 +34,7 @@ export function isRef(r: any): r is Ref {
 export function ref<T extends object>(value: T): ToRef<T>
 export function ref<T>(value: T): Ref<UnwrapRef<T>>
 export function ref<T = any>(): Ref<T | undefined>
+// 创建ref对象；
 export function ref(value?: unknown) {
   return createRef(value)
 }

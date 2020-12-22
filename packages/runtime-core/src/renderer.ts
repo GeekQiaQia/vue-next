@@ -421,7 +421,7 @@ function baseCreateRenderer(
   options: RendererOptions,
   createHydrationFns?: typeof createHydrationFunctions
 ): any {
-  // compile-time feature flags check
+  // compile-time feature flags check    // 运行时特性标志检查
   if (__ESM_BUNDLER__ && !__TEST__) {
     initFeatureFlags()
   }
@@ -445,6 +445,7 @@ function baseCreateRenderer(
 
   // Note: functions inside this closure should use `const xxx = () => {}`
   // style in order to prevent being inlined by minifiers.
+  // Patch 打补丁方法；
   const patch: PatchFn = (
     n1,
     n2,
@@ -455,7 +456,7 @@ function baseCreateRenderer(
     isSVG = false,
     optimized = false
   ) => {
-    // patching & not same type, unmount old tree
+    // patching & not same type, unmount old tree   // patch 并且判断非同一种VNode type,则进行卸载旧节点；
     if (n1 && !isSameVNodeType(n1, n2)) {
       anchor = getNextHostNode(n1)
       unmount(n1, parentComponent, parentSuspense, true)
@@ -1193,7 +1194,9 @@ function baseCreateRenderer(
     optimized: boolean
   ) => {
     if (n1 == null) {
+      // 老节点不存在，则执行挂载函数
       if (n2.shapeFlag & ShapeFlags.COMPONENT_KEPT_ALIVE) {
+        // 判断是否为 keepalive 组件
         ;(parentComponent!.ctx as KeepAliveContext).activate(
           n2,
           container,
@@ -1202,6 +1205,7 @@ function baseCreateRenderer(
           optimized
         )
       } else {
+        // 挂载新组件
         mountComponent(
           n2,
           container,
@@ -1213,6 +1217,7 @@ function baseCreateRenderer(
         )
       }
     } else {
+      // 如果老节点存在，则执行更新组件
       updateComponent(n1, n2, optimized)
     }
   }
@@ -1226,6 +1231,7 @@ function baseCreateRenderer(
     isSVG,
     optimized
   ) => {
+    // 创建组件实例
     const instance: ComponentInternalInstance = (initialVNode.component = createComponentInstance(
       initialVNode,
       parentComponent,
@@ -1250,6 +1256,7 @@ function baseCreateRenderer(
     if (__DEV__) {
       startMeasure(instance, `init`)
     }
+    // setup,安装组件实例
     setupComponent(instance)
     if (__DEV__) {
       endMeasure(instance, `init`)
@@ -1268,7 +1275,7 @@ function baseCreateRenderer(
       }
       return
     }
-
+    // 设置渲染函数副作用
     setupRenderEffect(
       instance,
       initialVNode,

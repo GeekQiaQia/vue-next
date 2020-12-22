@@ -82,6 +82,7 @@ type UnwrapNestedRefs<T> = T extends Ref ? T : UnwrapRef<T>
  * ```
  */
 export function reactive<T extends object>(target: T): UnwrapNestedRefs<T>
+// 创建响应式对象
 export function reactive(target: object) {
   // if trying to observe a readonly proxy, return the readonly version.
   if (target && (target as Target)[ReactiveFlags.IS_READONLY]) {
@@ -162,13 +163,15 @@ export function shallowReadonly<T extends object>(
     readonlyCollectionHandlers
   )
 }
-
+// 创建响应式数据对象；
+//  createReactiveObject   返回的是 target对象的一个proxy 实例；
 function createReactiveObject(
   target: Target,
   isReadonly: boolean,
   baseHandlers: ProxyHandler<any>,
   collectionHandlers: ProxyHandler<any>
 ) {
+  // 如果target 不是响应式对象，则返回错误提示；not proxyType
   if (!isObject(target)) {
     if (__DEV__) {
       console.warn(`value cannot be made reactive: ${String(target)}`)
@@ -177,6 +180,7 @@ function createReactiveObject(
   }
   // target is already a Proxy, return it.
   // exception: calling readonly() on a reactive object
+  // 如果当前对象已经是Proxy对象，则直接返回 target;
   if (
     target[ReactiveFlags.RAW] &&
     !(isReadonly && target[ReactiveFlags.IS_REACTIVE])
@@ -184,20 +188,27 @@ function createReactiveObject(
     return target
   }
   // target already has corresponding Proxy
+  // 通过proxyMap 来存储当前已经存在的Proxy对象；
   const proxyMap = isReadonly ? readonlyMap : reactiveMap
+  // 通过proxyMap.get(); 来判断当前target对象是否为已经存在的响应式对象；
   const existingProxy = proxyMap.get(target)
+  // 如果已经存在，则直接返回；
   if (existingProxy) {
     return existingProxy
   }
   // only a whitelist of value types can be observed.
+  // 只有特定类型类型的对象能够被观察
   const targetType = getTargetType(target)
   if (targetType === TargetType.INVALID) {
     return target
   }
+  // new 一个Proxy代理实例； 根据targetType的类型，
+  //传入不同的handler;collectionHandlers/baseHandlers
   const proxy = new Proxy(
     target,
     targetType === TargetType.COLLECTION ? collectionHandlers : baseHandlers
   )
+  //使用proxyMap 对当前originalObject进行存储；key:value分别为：target:proxy;
   proxyMap.set(target, proxy)
   return proxy
 }

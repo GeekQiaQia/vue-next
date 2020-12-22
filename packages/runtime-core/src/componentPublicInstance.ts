@@ -466,6 +466,8 @@ export function createRenderContext(instance: ComponentInternalInstance) {
   })
 
   // expose public properties
+  // $el $props $attrs $slots $refs $parents $root $emit $options
+  // $forceUpdate $nextTick $watch...
   Object.keys(publicPropertiesMap).forEach(key => {
     Object.defineProperty(target, key, {
       configurable: true,

@@ -3,7 +3,6 @@
 ## [vue3英文文档](https://v3.vuejs.org/)
 
 
-[vue-next-dev](https://github.com/GeekQiaQia/vue-next/tree/dev)
 ## 安装和使用
 ### CDN
 ```
@@ -93,7 +92,6 @@ npm run dev
   * ref() 返回响应式对象；
   * reactive();将一个对象响应化；
   * toRefs(); 将一个响应式对象ref处理；
-  
 ```
 <script>
   import { ref } from 'vue'
@@ -133,7 +131,7 @@ console.log(counter) // { value: 0 }
 1、在 JavaScript 中，Number 或 String 等基本类型是通过值传递的，而不是通过引用传递的：
 在任何值周围都有一个包装器对象，这样我们就可以在整个应用程序中安全地传递它，而不必担心在某个地方失去它的响应性。
 `
-![按引用传递与按值传递](https://blog.penjee.com/wp-content/uploads/2015/02/pass-by-reference-vs-pass-by-value-animation.gif)
+![按引用传递与按值传递](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d2d0015cae9e4bab94339628900b9153~tplv-k3u1fbpfcp-zoom-1.image)
 
 
 #### 生命周期钩子注册内部setup
@@ -246,7 +244,7 @@ export default {
 #### Provide/Inject
 
 * `只能` 在当前活动实例的 `setup()` 期间调用
- [用法和vue2类似](https://v3.cn.vuejs.org/guide/composition-api-provide-inject.html#%E8%AE%BE%E6%83%B3%E5%9C%BA%E6%99%AF)
+
 #### use 组合式函数；
 
  使用组合函数组织代码； useCounter();
@@ -304,200 +302,113 @@ export default {
   }
 };
 
+
 </script>
 
 ```
+baseCreateRender() 
+![](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9234009f8b5a487bbf53d1886f52fc46~tplv-k3u1fbpfcp-watermark.image)
+createAppContext();
+![](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/21c9d4687e3d4d9ea049d899bce6a543~tplv-k3u1fbpfcp-watermark.image)
+app.mount();app挂载
+![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/97119d82c58740b5a9141b8055c732f5~tplv-k3u1fbpfcp-watermark.image)
+	normalizeContainer
+   ![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ca6d3183af374a658f31fa45860c0967~tplv-k3u1fbpfcp-watermark.image)
+    mount(container) 挂载根节点
+   ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ee7a0cc617f3429ba178c6552a9afd6d~tplv-k3u1fbpfcp-watermark.image)
+   _createVnode()
+   ![](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/98eb64e388194b75aaac6a60e54f2ecd~tplv-k3u1fbpfcp-watermark.image)
+   vnode:
+   ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/55bdd4dd75d74ce09c2a46e06e28dad0~tplv-k3u1fbpfcp-watermark.image)
+   	 render()
+     ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ac61c754b8f54b1a8cac593e6ac7dcc7~tplv-k3u1fbpfcp-watermark.image)
+     	patch()
+        ![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7b9e6afd91eb4c39965e7b8040f07308~tplv-k3u1fbpfcp-watermark.image)
+        mountComponent() 初始化
+        ![](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b5b6a0aae06a4484bff4da4ffbe0d17d~tplv-k3u1fbpfcp-watermark.image)
+        ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d833e2f6e0aa4c80b85a3fad5381ebe8~tplv-k3u1fbpfcp-watermark.image)
+        	创建组件实例：createComponentInstance()
+            ![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4bc32109b5a441c68378cfee5b080ea7~tplv-k3u1fbpfcp-watermark.image)
+        		creatRenderContext()
+                ![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/584872b147be4b638939b641a1fe85ef~tplv-k3u1fbpfcp-watermark.image)
+                shallowReactive();createReactiveObject
+            ![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5cdff711f35148418493b98796aa159b~tplv-k3u1fbpfcp-watermark.image)
+        setupStatefulComponent()
+        ![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/75a8eab2b66a47bb94768a7f27db11e7~tplv-k3u1fbpfcp-watermark.image)
+        setup  reactive()
+        ![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d8524d5bea5d48a5a28eefdf88d9fc47~tplv-k3u1fbpfcp-watermark.image)
+       createReactiveObject();
+     ![](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f8b48be3306a42b898d3cdb7ffcd163b~tplv-k3u1fbpfcp-watermark.image)
+     finishComponentSetup
+     ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d42d6075800b44388a5d3bf9044789b3~tplv-k3u1fbpfcp-watermark.image)
+        compileToFunction
+		![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a4013ebf1829497a8f36dc866d868f32~tplv-k3u1fbpfcp-watermark.image)
+          baseCompile();
+          ![](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/298caae84b8744778a54dadfd23712ed~tplv-k3u1fbpfcp-watermark.image)
+          baseParse()/createParserContext()
+          ![](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/71ec02889d9848ba9ea74a19adeb7f0f~tplv-k3u1fbpfcp-watermark.image)
+          ![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a080b8566d6d466b88aa2b463685f74e~tplv-k3u1fbpfcp-watermark.image)
+          pushNode()
+          ![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/19905ec143dd41dda7a580ef5c87d8b5~tplv-k3u1fbpfcp-watermark.image)
+          ![](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4d42e15baf4940689f96791ecffc5146~tplv-k3u1fbpfcp-watermark.image)
+     // applyOptions(); support for 2.x options
+    ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2c47b9fcc8ec4783b57e90ef53e12bcc~tplv-k3u1fbpfcp-watermark.image)
+    // 源码中对应的生命周期
+    ![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/99c0677d88554346809f510444952407~tplv-k3u1fbpfcp-watermark.image)
+    setupRenderEffect()
+runtime-core/src/renderer.ts
+![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b0b3ee94d7c54826bf368c3aeea72863~tplv-k3u1fbpfcp-watermark.image)
 
-### Teleport
- [Teleport 英文官方文档](https://v3.vuejs.org/guide/teleport.html)
-
- [Teleport 中文官方文档](https://v3.cn.vuejs.org/guide/teleport.html)
-
- Teleport 提供了一种干净的方法，允许我们控制在 DOM 中哪个父节点下呈现 HTML，而不必求助于全局状态或将其拆分为两个组件。
-
- #### 官方例子，简单易懂：
- ```
-app.component('modal-button', {
-  template: `
-    <button @click="modalOpen = true">
-        Open full screen modal! (With teleport!)
-    </button>
-
-    <teleport to="body">
-      <div v-if="modalOpen" class="modal">
-        <div>
-          I'm a teleported modal! 
-          (My parent is "body")
-          <button @click="modalOpen = false">
-            Close
-          </button>
-        </div>
-      </div>
-    </teleport>
-  `,
-  data() {
-    return { 
-      modalOpen: false
-    }
-  }
-})
-
- ```
- #### 同一个节点挂载多个teleport
- ```
- <teleport to="#modals">
-  <div>A</div>
-</teleport>
-<teleport to="#modals">
-  <div>B</div>
-</teleport>
-
-<!-- result-->
-<div id="modals">
-  <div>A</div>
-  <div>B</div>
-</div>
- ```
-### Fragments
-[Fragments 英文官方文档](https://v3.vuejs.org/guide/migration/fragments.html)
-
-[Fragments 中文官方文档](https://v3.cn.vuejs.org/guide/migration/fragments.html)
-
-Vue 3 现在正式支持了多根节点的组件
-
-在 3.x 中，组件可以包含多个根节点！但是，这要求开发者显式定义 attribute 应该分布在哪里。
-```
-<!-- Layout.vue -->
-<template>
-  <header>...</header>
-  <main v-bind="$attrs">...</main>
-  <footer>...</footer>
-</template>
-
-```
-有关 attribute 继承如何工作的详细信息
-[组件属性继承](https://v3.cn.vuejs.org/guide/component-attrs.html)
-
-### Emits Componnet Option 
-
-[组件自定义事件-英文官方文档](https://v3.vuejs.org/guide/component-custom-events.html)
-
-[组件自定义事件-中文官方文档](https://v3.cn.vuejs.org/guide/component-custom-events.html)
-
-触发的事件名需要完全匹配监听这个事件所用的名称。
-即：如果用户自定义事件名为驼峰命名，则监听事件名必须为驼峰命名；kebab-case 命名同理；
-
-官方举例，简单易懂：
-```
-this.$emit('myEvent')
-
-<!-- 没有效果 -->
-<my-component @my-event="doSomething"></my-component>
-
-```
-`v-on` 事件监听器在 DOM 模板中会被自动转换为`全小写` (因为 HTML 是大小写不敏感的)，所以` @myEvent `将会变成 `@myevent`——导致 myEvent 不可能被监听到。
-
-**总结**：官方推荐使用：`kebab-case `的事件名。
-
-
-### v-model参数
-
-默认情况下，
-* 组件上的 v-model 使用 modelValue 作为 prop 和 update:modelValue 作为事件。
-* 我们可以通过向 v-model 传递参数来修改这些名称：
-
-
-官方举例，简单易懂：
-```
-<my-component v-model:title="bookTitle"></my-component>
-
-```
-子组件将需要一个 title prop 并抛出事件 update:title ：
-
-```
-app.component('my-component', {
-  props: {
-    title: String
-  },
-  emits: ['update:title'],
-  template: `
-    <input 
-      type="text"
-      :value="title"
-      @input="$emit('update:title', $event.target.value)">
-  `
-})
-```
-
-
-
-
-
-## [vue3迁移指南](https://v3.cn.vuejs.org/guide/migration/fragments.html)
-
-## 源码分析
-  
-  ### 响应式数据类型
-vue3 只能对 `Object`、`Array`、`Map`、`Set`、`WeakMap`、`WeakSet` 几种数据类型的target实现数据的响应式；
-
-源码为证：
-```
-// http://172.25.154.30:5000/packages/reactivity/src/reactive.ts
-
-function targetTypeMap(rawType: string) {
-  switch (rawType) {
-    case 'Object':
-    case 'Array':
-      return TargetType.COMMON
-    case 'Map':
-    case 'Set':
-    case 'WeakMap':
-    case 'WeakSet':
-      return TargetType.COLLECTION   // 返回集合类型；
-    default:
-      return TargetType.INVALID   // 否则返回 无效类型；
-  }
-}
-
-```
-
-## vue3 对常用类型的封装
-
- // packages/shared/src/index.ts
-
- ```
- const hasOwnProperty = Object.prototype.hasOwnProperty
-export const hasOwn = (
-  val: object,
-  key: string | symbol
-): key is keyof typeof val => hasOwnProperty.call(val, key)
-
-export const isArray = Array.isArray
-export const isMap = (val: unknown): val is Map<any, any> =>
-  toTypeString(val) === '[object Map]'
-export const isSet = (val: unknown): val is Set<any> =>
-  toTypeString(val) === '[object Set]'
-
-export const isDate = (val: unknown): val is Date => val instanceof Date
-export const isFunction = (val: unknown): val is Function =>
-  typeof val === 'function'
-export const isString = (val: unknown): val is string => typeof val === 'string'
-export const isSymbol = (val: unknown): val is symbol => typeof val === 'symbol'
-export const isObject = (val: unknown): val is Record<any, any> =>
-  val !== null && typeof val === 'object'
-
-export const isPromise = <T = any>(val: unknown): val is Promise<T> => {
-  return isObject(val) && isFunction(val.then) && isFunction(val.catch)
-}
-
- ```
-
- ## [vue初始化源码分析思维导图](./composition/init vue3 createApp.xmind)
-
-
-
-## 如何给vue-next提issue
-[vue-next: repro-new-issue](https://new-issue.vuejs.org/?repo=vuejs/vue-next)
+ unRef()定义：
+ ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/333b3be0e2e243dba2d5f3cb1dfc8689~tplv-k3u1fbpfcp-watermark.image)
+ isRef()定义：
+ 
+ normalizeChildren()
+ ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3073c3c2c99d4e4fac467af9f157e546~tplv-k3u1fbpfcp-watermark.image)
+ 
+ // 虚拟节点 vnode的数据结构类型；
+ ![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/38f9463f140040418afdb507b76e0607~tplv-k3u1fbpfcp-watermark.image)
+ 
+ ![](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ae4854573e4e4e6bac6f175899897120~tplv-k3u1fbpfcp-watermark.image)
+ 
 ![](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/436ca8446da54f7cb083b22a0eef2bd6~tplv-k3u1fbpfcp-watermark.image)
+
+![](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/448df2c0cac54cf282592844eaad3db0~tplv-k3u1fbpfcp-watermark.image)
+
+![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9cd0de5abb7041ae952b485d4518a4de~tplv-k3u1fbpfcp-watermark.image)
+
+![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/238a04fb97014ee0a5aa02eca3d294fe~tplv-k3u1fbpfcp-watermark.image)
+
+![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cbb97760c5ab4fbb9018aa2b628469d3~tplv-k3u1fbpfcp-watermark.image)
+
+mountComponent(); 挂载组件；
+![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/de91744702b74615863557ca1f81c3a2~tplv-k3u1fbpfcp-watermark.image)
+
+setupRenderEffect(instance,initialVNode,container,anchor,parentSuspense,isSVG,optimized)
+
+![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9c697f3bbf1a4a87acc637d572c91534~tplv-k3u1fbpfcp-watermark.image)
+
+![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f705e68b4cdc4e969a443096574d767f~tplv-k3u1fbpfcp-watermark.image)
+
+
+createGetter()
+![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a7ab0819a489430d8ffa7cff89fc22e2~tplv-k3u1fbpfcp-watermark.image)
+PublicInstanceProxyHandlers
+
+![](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e4a03c79de1c4cb0910f4253f3ef5dda~tplv-k3u1fbpfcp-watermark.image)
+track
+![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/be915b5286a449c3bf88d4deaea0aabe~tplv-k3u1fbpfcp-watermark.image)
+// 创建虚拟节点 _createVNode
+![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d58e9b1879f24a439dc86e1ff8a4fe57~tplv-k3u1fbpfcp-watermark.image)
+
+vnode 
+
+`源码路径:`/packages/runtime-core/src/vnode.ts
+![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b13df20f91694f169e4cb5a86b609db2~tplv-k3u1fbpfcp-watermark.image)
+
+normalizeChildren
+
+`源码路径:`/packages/runtime-core/src/vnode.ts
+![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3f2e74df41eb4d1ba4be6d87f9d66378~tplv-k3u1fbpfcp-watermark.image)
 
 

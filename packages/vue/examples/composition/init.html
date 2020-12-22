@@ -2,14 +2,34 @@
 
 <div id="app">
 <h1>init vue3</h1>
+<ul>
+   <li>公司：{{state.comp}}</li>
+   <li>部门：{{state.dep}}</li>
+   <li>姓名：{{state.name}}</li>
+
+</ul>
 </div>
 
 <script>
-const { createApp} = Vue
+const { createApp ,reactive ,ref} = Vue
 
 
 createApp({
- 
+   setup(){
+      let state=reactive({
+            comp:"掌小门教育科技有限公司",
+            dep:"掌门前端",
+            name:"白少侠"
+               })
+      let counter=ref(0)
+         return {state}
+   }
 }).mount('#app')
 
 </script>
+<style>
+   ul li{
+      list-style: none;
+      
+   }
+</style>
