@@ -133,7 +133,7 @@ console.log(counter) // { value: 0 }
 1、在 JavaScript 中，Number 或 String 等基本类型是通过值传递的，而不是通过引用传递的：
 在任何值周围都有一个包装器对象，这样我们就可以在整个应用程序中安全地传递它，而不必担心在某个地方失去它的响应性。
 `
-![按引用传递与按值传递](https://blog.penjee.com/wp-content/uploads/2015/02/pass-by-reference-vs-pass-by-value-animation.gif)
+![按引用传递与按值传递](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f9e2b473d9c342ce845d9bc56700e2b2~tplv-k3u1fbpfcp-zoom-1.image)
 
 
 #### 生命周期钩子注册内部setup
@@ -159,6 +159,7 @@ console.log(counter) // { value: 0 }
 
 
 ```
+
 <script>
   import { getCurrentInstance, onMounted, ref,watch,computed  } from 'vue'
 export default {
@@ -202,7 +203,10 @@ watch()函数侦听器，接受3个参数
 * 一个回调
 * 可选的配置选项
 
+
+[项目示例地址](https://github.com/GeekQiaQia/vue-next/tree/dev/packages/vue/examples/vite-app/viteApp)
 ```
+
 
 <script>
   import { getCurrentInstance, onMounted, ref,watch,computed  } from 'vue'
@@ -496,6 +500,9 @@ export const isPromise = <T = any>(val: unknown): val is Promise<T> => {
  ## [vue初始化源码分析思维导图](https://github.com/GeekQiaQia/vue-next/blob/dev/packages/vue/examples/composition/init%20vue3%20createApp.xmind)
 
 结合思维导图，具体源码后续拆开分析
+
+[思维导图地址](https://github.com/GeekQiaQia/vue-next/blob/dev/packages/vue/examples/composition/init%20vue3%20createApp.xmind)
+![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0d5d083ff5604bd3af9ef9e60bcfadeb~tplv-k3u1fbpfcp-watermark.image)
 
 
 ## 如何给vue-next提issue
