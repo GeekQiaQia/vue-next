@@ -491,9 +491,11 @@ export const isPromise = <T = any>(val: unknown): val is Promise<T> => {
 }
 
  ```
+ 
 
- ## [vue初始化源码分析思维导图](./composition/init vue3 createApp.xmind)
+ ## [vue初始化源码分析思维导图](https://github.com/GeekQiaQia/vue-next/blob/dev/packages/vue/examples/composition/init%20vue3%20createApp.xmind)
 
+结合思维导图，具体源码后续拆开分析
 
 
 ## 如何给vue-next提issue
