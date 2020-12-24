@@ -89,11 +89,11 @@ npm run dev
     * 如果是单文件的方式运行的，this为window;
     * 源码中，setup()在解析其他组件选项之前被调用；this不再指向当前活跃实例的引用；
  * **结论**：forget about `this`;vue3的setup中无需考虑`this`即可;
- #### setup()中，三种方式实现数据响应式：
+ #### setup()中，四种方式实现数据响应式：
   * ref() 返回响应式对象；
   * reactive();将一个对象响应化；
   * toRefs(); 将一个响应式对象ref处理；
-  
+  * toRef(); 将一个对象的某个属性ref处理
 ```
 <script>
   import { ref } from 'vue'
@@ -646,7 +646,7 @@ import { ref } from 'vue'
 
 const { x: __x, y: __y } = useMouse()
 const x = ref(__x)
-const y = toRef(__y)
+const y = ref(__y)
 ```
 </details>
 <p></p>
