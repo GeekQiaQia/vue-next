@@ -65,6 +65,7 @@ export interface CodegenResult {
   map?: RawSourceMap
 }
 
+// 代码生成内容接口定义；
 export interface CodegenContext
   extends Omit<
       Required<CodegenOptions>,
@@ -84,7 +85,12 @@ export interface CodegenContext
   deindent(withoutNewLine?: boolean): void
   newline(): void
 }
-
+/**
+ * 
+ * @description 创建代码生成内容
+ * @param  ast:RootNode 根节点抽象语法树
+ *  {}:CodegenOptions 
+*/
 function createCodegenContext(
   ast: RootNode,
   {

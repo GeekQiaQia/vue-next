@@ -207,6 +207,7 @@ export interface TransformOptions extends SharedTransformCodegenOptions {
   ssrCssVars?: string
   onError?: (error: CompilerError) => void
 }
+// 代码生成接口定义：
 
 export interface CodegenOptions extends SharedTransformCodegenOptions {
   /**

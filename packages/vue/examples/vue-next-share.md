@@ -438,6 +438,45 @@ app.component('my-component', {
 
 
 ## [vue3迁移指南](https://v3.cn.vuejs.org/guide/migration/fragments.html)
+### 自定义组件使用v-model
+ 
+当用在组件上时，`v-model` 则会这样：
+
+```html
+<custom-input
+  :model-value="searchText"
+  @update:model-value="searchText = $event"
+></custom-input>
+```
+::: warning
+请注意，我们在这里使用的是 `model-value` ，因为我们使用的是 DOM 模板中的 kebab-case。你可以在 [DOM Template Parsing Caveats](#dom-template-parsing-caveats) 部分找到关于 kebab cased 和 camelCased 属性的详细说明
+:::
+
+为了让它正常工作，这个组件内的 `<input>` 必须：
+
+- 将其 `value` attribute 绑定到一个名叫 `modelValue` 的 prop 上
+- 在其 `input` 事件被触发时，将新的值通过自定义的 `update:modelValue` 事件抛出
+
+写成代码之后是这样的：
+
+```js
+app.component('custom-input', {
+  props: ['modelValue'],
+  emits: ['update:modelValue'],
+  template: `
+    <input
+      :value="modelValue"
+      @input="$emit('update:modelValue', $event.target.value)"
+    >
+  `
+})
+```
+
+现在 `v-model` 就应该可以在这个组件上完美地工作起来了：
+
+```html
+<custom-input v-model="searchText"></custom-input>
+```
 
 ## 源码分析
   
