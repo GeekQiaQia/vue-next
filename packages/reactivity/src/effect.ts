@@ -109,7 +109,7 @@ function createReactiveEffect<T = any>(
   effect.options = options
   return effect
 }
-
+// set.delete();
 function cleanup(effect: ReactiveEffect) {
   const { deps } = effect
   if (deps.length) {
@@ -120,6 +120,8 @@ function cleanup(effect: ReactiveEffect) {
   }
 }
 
+// 定义 flag shouldTrack
+// trackStack 定义追踪栈
 let shouldTrack = true
 const trackStack: boolean[] = []
 

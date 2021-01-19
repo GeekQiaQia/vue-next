@@ -5,6 +5,7 @@ import { reactive, isProxy, toRaw, isReactive } from './reactive'
 import { CollectionTypes } from './collectionHandlers'
 
 declare const RefSymbol: unique symbol
+// unique symbol 作为symbol的子类型，用作唯一key值；
 
 export interface Ref<T = any> {
   value: T
@@ -30,15 +31,21 @@ export type ToRefs<T = any> = {
 const convert = <T extends unknown>(val: T): T =>
   isObject(val) ? reactive(val) : val
 
+// isRef 函数的重载
 export function isRef<T>(r: Ref<T> | unknown): r is Ref<T>
 export function isRef(r: any): r is Ref {
   return Boolean(r && r.__v_isRef === true)
 }
 
+// ref 函数的重载
 export function ref<T extends object>(value: T): ToRef<T>
 export function ref<T>(value: T): Ref<UnwrapRef<T>>
 export function ref<T = any>(): Ref<T | undefined>
-// 创建ref对象；
+
+/**
+ * @description  // 创建ref对象；
+ *
+ */
 export function ref(value?: unknown) {
   return createRef(value)
 }
@@ -52,6 +59,8 @@ export function shallowRef(value?: unknown) {
   return createRef(value, true)
 }
 
+// get set 对象属性访问器  创建一个Ref类
+// 通过单独抽离出来的 track 进行依赖追踪， trigger 进行依赖通知；
 class RefImpl<T> {
   private _value: T
 
@@ -81,19 +90,27 @@ function createRef(rawValue: unknown, shallow = false) {
   }
   return new RefImpl(rawValue, shallow)
 }
-
+/**
+ * @description trigger 对应 vue2中的notify
+ *  调用 单独提取出的 trigger
+ *
+ */
 export function triggerRef(ref: Ref) {
   trigger(toRaw(ref), TriggerOpTypes.SET, 'value', __DEV__ ? ref.value : void 0)
 }
+/**
+ * @description unref: 直接获取引用对象的原值 value;
+ * */
 
 export function unref<T>(ref: T): T extends Ref<infer V> ? V : T {
   return isRef(ref) ? (ref.value as any) : ref
 }
-
+//  handlers
 const shallowUnwrapHandlers: ProxyHandler<any> = {
   get: (target, key, receiver) => unref(Reflect.get(target, key, receiver)),
   set: (target, key, value, receiver) => {
     const oldValue = target[key]
+    // set 时 判断新值value 是否是 Ref 引用类型；
     if (isRef(oldValue) && !isRef(value)) {
       oldValue.value = value
       return true
@@ -102,7 +119,9 @@ const shallowUnwrapHandlers: ProxyHandler<any> = {
     }
   }
 }
-
+/**
+ * @description 代理 Refs； new Proxy();
+ * **/
 export function proxyRefs<T extends object>(
   objectWithRefs: T
 ): ShallowUnwrapRef<T> {
@@ -110,7 +129,7 @@ export function proxyRefs<T extends object>(
     ? objectWithRefs
     : new Proxy(objectWithRefs, shallowUnwrapHandlers)
 }
-
+// 定义工厂函数类型 type
 export type CustomRefFactory<T> = (
   track: () => void,
   trigger: () => void
@@ -142,10 +161,20 @@ class CustomRefImpl<T> {
     this._set(newVal)
   }
 }
-
+/**
+ * @description 可通过工厂函数自定义Ref
+ *
+ */
 export function customRef<T>(factory: CustomRefFactory<T>): Ref<T> {
   return new CustomRefImpl(factory) as any
 }
+/**
+ * /**
+ * @description 对象所有属性值的 ref 处理 ;
+ * @param object
+ * @param key
+ *
+ */
 
 export function toRefs<T extends object>(object: T): ToRefs<T> {
   if (__DEV__ && !isProxy(object)) {
@@ -157,12 +186,18 @@ export function toRefs<T extends object>(object: T): ToRefs<T> {
   }
   return ret
 }
-
+/**
+ * @description 对象属性值的 ref 实现 ;
+ * @param object
+ * @param key
+ *
+ */
 class ObjectRefImpl<T extends object, K extends keyof T> {
+  //  只读的 __v_isRef flag,标记当前值是否已经被Ref处理；
   public readonly __v_isRef = true
-
+  // 构造函数初始化参数
   constructor(private readonly _object: T, private readonly _key: K) {}
-
+  // 依旧通过对象访问器的方式进行get set
   get value() {
     return this._object[this._key]
   }
@@ -171,7 +206,11 @@ class ObjectRefImpl<T extends object, K extends keyof T> {
     this._object[this._key] = newVal
   }
 }
-
+/**
+ * @deprecated 将一个对象的属性，进行Ref处理；  return object[key] || ObjectRefImpl(object,key)
+ * @param object
+ * @param key
+ */
 export function toRef<T extends object, K extends keyof T>(
   object: T,
   key: K
@@ -227,6 +266,8 @@ type UnwrapRefSimple<T> = T extends
 // Extract all known symbols from an object
 // when unwrapping Object the symbols are not `in keyof`, this should cover all the
 // known symbols
+// 将对象中的所有symbols 类型的key值进行提取,因为当展开一个对象的时候，
+// symbols 类型的key 不再 keyof 中;
 type SymbolExtract<T> = (T extends { [Symbol.asyncIterator]: infer V }
   ? { [Symbol.asyncIterator]: V }
   : {}) &

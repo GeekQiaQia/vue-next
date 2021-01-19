@@ -60,7 +60,7 @@ const resolveTarget = <T = RendererElement>(
     return targetSelector as any
   }
 }
-
+// teleport 实现函数
 export const TeleportImpl = {
   __isTeleport: true,
   process(
@@ -228,12 +228,13 @@ export const TeleportImpl = {
   hydrate: hydrateTeleport
 }
 
+// teleport Move 类型
 export const enum TeleportMoveTypes {
   TARGET_CHANGE,
   TOGGLE, // enable / disable
   REORDER // moved in the main view
 }
-
+// 移动vnode到指定挂载节点 moveTeleport to container
 function moveTeleport(
   vnode: VNode,
   container: RendererElement,
@@ -242,6 +243,7 @@ function moveTeleport(
   moveType: TeleportMoveTypes = TeleportMoveTypes.REORDER
 ) {
   // move target anchor if this is a target change.
+  // target 改变的时候，insert到一个新的contaier
   if (moveType === TeleportMoveTypes.TARGET_CHANGE) {
     insert(vnode.targetAnchor!, container, parentAnchor)
   }

@@ -158,6 +158,7 @@ export function h<P>(
   children?: RawChildren | RawSlots
 ): VNode
 
+// h function 实现
 // Actual implementation
 export function h(type: any, propsOrChildren?: any, children?: any): VNode {
   const l = arguments.length

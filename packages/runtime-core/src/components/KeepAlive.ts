@@ -42,11 +42,13 @@ export interface KeepAliveProps {
   exclude?: MatchPattern
   max?: number | string
 }
-
+// 定义cacheKey
 type CacheKey = string | number | ConcreteComponent
+// cache 缓存 虚拟节点VNode
 type Cache = Map<CacheKey, VNode>
+// 记录当前缓存的VNode
 type Keys = Set<CacheKey>
-
+// 继承组件渲染上下文 active  deactive
 export interface KeepAliveContext extends ComponentRenderContext {
   renderer: RendererInternals
   activate: (
@@ -58,10 +60,11 @@ export interface KeepAliveContext extends ComponentRenderContext {
   ) => void
   deactivate: (vnode: VNode) => void
 }
-
+//  isKeepAlive 通过VNode.type来判断当前虚拟dom是否是 keepAlive状态
 export const isKeepAlive = (vnode: VNode): boolean =>
   (vnode.type as any).__isKeepAlive
 
+// 定义keep alive   being tree-shaken
 const KeepAliveImpl = {
   name: `KeepAlive`,
 
@@ -77,7 +80,7 @@ const KeepAliveImpl = {
     exclude: [String, RegExp, Array],
     max: [String, Number]
   },
-
+  // setup实现 KeepAliveProps SetupContext
   setup(props: KeepAliveProps, { slots }: SetupContext) {
     const cache: Cache = new Map()
     const keys: Keys = new Set()
@@ -86,11 +89,16 @@ const KeepAliveImpl = {
     const instance = getCurrentInstance()!
     const parentSuspense = instance.suspense
 
+    // keepAlive 通过ctx 与实例化的render进行通信
+    // keepAlive 组件实例暴露 active/deactivate 的实现
+
     // KeepAlive communicates with the instantiated renderer via the
     // ctx where the renderer passes in its internals,
     // and the KeepAlive instance exposes activate/deactivate implementations.
     // The whole point of this is to avoid importing KeepAlive directly in the
     // renderer to facilitate tree-shaking.
+
+    // 共享Context 为 实例的ctx;
     const sharedContext = instance.ctx as KeepAliveContext
     const {
       renderer: {
@@ -100,6 +108,8 @@ const KeepAliveImpl = {
         o: { createElement }
       }
     } = sharedContext
+
+    // 存储节点
     const storageContainer = createElement('div')
 
     sharedContext.activate = (vnode, container, anchor, isSVG, optimized) => {

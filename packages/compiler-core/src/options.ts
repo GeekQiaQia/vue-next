@@ -98,6 +98,12 @@ export interface BindingMetadata {
   [key: string]: BindingTypes | undefined
 }
 
+/***
+ *
+ * @description 共享转换代码生成选项 接口
+ *
+ */
+
 interface SharedTransformCodegenOptions {
   /**
    * Transform expressions like {{ foo }} to `_ctx.foo`.

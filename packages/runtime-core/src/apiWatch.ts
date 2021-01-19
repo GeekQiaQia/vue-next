@@ -67,6 +67,7 @@ export interface WatchOptions<Immediate = boolean> extends WatchOptionsBase {
 
 export type WatchStopHandle = () => void
 
+// 简化版watchEffect
 // Simple effect.
 export function watchEffect(
   effect: WatchEffect,
@@ -119,6 +120,7 @@ export function watch<
   options?: WatchOptions<Immediate>
 ): WatchStopHandle
 
+// watch 实现部分
 // implementation
 export function watch<T = any, Immediate extends Readonly<boolean> = false>(
   source: T | WatchSource<T>,

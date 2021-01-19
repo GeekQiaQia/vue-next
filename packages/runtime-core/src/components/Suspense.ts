@@ -50,6 +50,7 @@ export const SuspenseImpl = {
     // platform-specific impl passed from renderer
     rendererInternals: RendererInternals
   ) {
+    // 判断旧 suspense 节点是否存在
     if (n1 == null) {
       mountSuspense(
         n2,
@@ -62,6 +63,7 @@ export const SuspenseImpl = {
         rendererInternals
       )
     } else {
+      // 进行patch
       patchSuspense(
         n1,
         n2,
@@ -84,7 +86,7 @@ export const Suspense = ((__FEATURE_SUSPENSE__
   __isSuspense: true
   new (): { $props: VNodeProps & SuspenseProps }
 }
-
+// 挂载suspense
 function mountSuspense(
   vnode: VNode,
   container: RendererElement,
@@ -99,6 +101,7 @@ function mountSuspense(
     p: patch,
     o: { createElement }
   } = rendererInternals
+  // 创建一个标签 div
   const hiddenContainer = createElement('div')
   const suspense = (vnode.suspense = createSuspenseBoundary(
     vnode,
@@ -137,6 +140,7 @@ function mountSuspense(
     )
     setActiveBranch(suspense, vnode.ssFallback!)
   } else {
+    // suspense 直接返回resolve promise
     // Suspense has no async deps. Just resolve.
     suspense.resolve()
   }
@@ -309,7 +313,7 @@ function patchSuspense(
     }
   }
 }
-
+// SuspenseBoundary 接口定义
 export interface SuspenseBoundary {
   vnode: VNode<RendererNode, RendererElement, SuspenseProps>
   parent: SuspenseBoundary | null

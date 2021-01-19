@@ -585,7 +585,7 @@ function baseCreateRenderer(
       n2.el = n1.el
     }
   }
-
+  // 挂载静态节点
   const mountStaticNode = (
     n2: VNode,
     container: RendererElement,
@@ -603,7 +603,7 @@ function baseCreateRenderer(
   }
 
   /**
-   * Dev / HMR only
+   * Dev / HMR only  patch 静态节点
    */
   const patchStaticNode = (
     n1: VNode,
@@ -628,7 +628,7 @@ function baseCreateRenderer(
       n2.anchor = n1.anchor
     }
   }
-
+  // 移除静态节点
   const moveStaticNode = (
     { el, anchor }: VNode,
     container: RendererElement,
@@ -1294,7 +1294,7 @@ function baseCreateRenderer(
       endMeasure(instance, `mount`)
     }
   }
-
+  // 更新组件
   const updateComponent = (n1: VNode, n2: VNode, optimized: boolean) => {
     const instance = (n2.component = n1.component)!
     if (shouldUpdateComponent(n1, n2, optimized)) {
@@ -1521,7 +1521,7 @@ function baseCreateRenderer(
     // flush them before the render update.
     flushPreFlushCbs(undefined, instance.update)
   }
-
+  // patch  children
   const patchChildren: PatchChildrenFn = (
     n1,
     n2,
@@ -1618,7 +1618,7 @@ function baseCreateRenderer(
       }
     }
   }
-
+  // patch 不带有key值的childen
   const patchUnkeyedChildren = (
     c1: VNode[],
     c2: VNodeArrayChildren,
@@ -1674,7 +1674,7 @@ function baseCreateRenderer(
       )
     }
   }
-
+  // patch 带有key值的childen
   // can be all-keyed or mixed
   const patchKeyedChildren = (
     c1: VNode[],

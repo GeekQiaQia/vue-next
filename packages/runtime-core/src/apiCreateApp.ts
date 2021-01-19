@@ -156,7 +156,7 @@ export function createAppAPI<HostElement>(
           )
         }
       },
-      // 通过app.use使用安装插件； use函数中首先判断set中是否存在当前plugin
+      // 通过app.use使用安装插件； use函数中首先判断installedPlugins set中是否存在当前plugin
       use(plugin: Plugin, ...options: any[]) {
         if (installedPlugins.has(plugin)) {
           __DEV__ && warn(`Plugin has already been applied to target app.`)

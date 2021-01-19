@@ -569,7 +569,7 @@ export function normalizeVNode(child: VNodeChild): VNode {
 export function cloneIfMounted(child: VNode): VNode {
   return child.el === null ? child : cloneVNode(child)
 }
-
+// 初始化孩子节点
 export function normalizeChildren(vnode: VNode, children: unknown) {
   let type = 0
   const { shapeFlag } = vnode

@@ -62,6 +62,7 @@ export const createApp = ((...args) => {
     const container = normalizeContainer(containerOrSelector)
     if (!container) return
     const component = app._component
+    // function render template not exist
     if (!isFunction(component) && !component.render && !component.template) {
       component.template = container.innerHTML
     }
